@@ -561,8 +561,8 @@
         // Initialize connection
         function initializeConnection() {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}`;
-const wsUrl = 'https://game-show-backend.onrender.com';
+            const wsUrl = 'wss://game-show-backend.onrender.com';
+            console.log('Connecting to:', wsUrl);
             try {
                 ws = new WebSocket(wsUrl);
 
