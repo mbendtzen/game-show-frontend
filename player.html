@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get in the Game Show - PLAYER</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Arial', sans-serif;
+background: linear-gradient(135deg, #4A148C 0%, #7B1FA2 30%, #8E24AA 60%, #9C27B0 100%);
+min-height: 100vh;
+color: white;
+overflow-x: hidden;
+}
+
+.sparkle {
+position: fixed;
+width: 3px;
+height: 3px;
+background: #FFD700;
+border-radius: 50%;
+animation: sparkle 3s infinite;
+z-index: 1;
+pointer-events: none;
+}
+
+@keyframes sparkle {
+0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+.container {
+max-width: 500px;
+margin: 0 auto;
+padding: 20px;
+position: relative;
+z-index: 10;
+}
+
+.header {
+text-align: center;
+margin-bottom: 30px;
+}
+
+.header h1 {
+font-size: 2.2rem;
+background: linear-gradient(45deg, #FFD700 0%, #FFC107 25%, #FFB300 50%, #FFA000 75%, #FFD700 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+font-weight: bold;
+background-size: 200% 200%;
+animation: goldShine 3s ease-in-out infinite;
+}
+
+@keyframes goldShine {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+.card {
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(10px);
+border-radius: 20px;
+padding: 25px;
+margin-bottom: 20px;
+border: 2px solid rgba(255,255,255,0.2);
+box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.input-field {
+width: 100%;
+padding: 15px;
+border: 2px solid rgba(255,255,255,0.3);
+border-radius: 12px;
+background: rgba(255,255,255,0.1);
+color: white;
+font-size: 16px;
+margin-bottom: 15px;
+transition: all 0.3s ease;
+}
+
+.input-field::placeholder {
+color: rgba(255,255,255,0.7);
+}
+
+.input-field:focus {
+outline: none;
+border-color: #FFD700;
+box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.btn {
+padding: 15px 25px;
+border: none;
+border-radius: 15px;
+font-weight: bold;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.3s ease;
+text-transform: uppercase;
+letter-spacing: 1px;
+position: relative;
+overflow: hidden;
+width: 100%;
+margin-bottom: 10px;
+}
+
+.btn:before {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 0;
+height: 0;
+background: rgba(255,255,255,0.3);
+border-radius: 50%;
+transition: all 0.5s ease;
+transform: translate(-50%, -50%);
+}
+
+.btn:hover:before {
+width: 300px;
+height: 300px;
+}
+
+.btn-primary {
+background: linear-gradient(45deg, #8B5CF6, #EC4899);
+color: white;
+box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+.btn-success {
+background: linear-gradient(45deg, #10B981, #34D399);
+color: white;
+box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.btn-warning {
+background: linear-gradient(45deg, #F59E0B, #FBBF24);
+color: white;
+box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.btn:hover {
+transform: translateY(-3px);
+}
+
+.btn-row {
+display: flex;
+gap: 10px;
+}
+
+.btn-row .btn {
+margin-bottom: 0;
+}
+
+/* BUZZER STYLES */
+.buzzer-container {
+text-align: center;
+margin: 30px 0;
+}
+
+.buzzer {
+width: 220px;
+height: 220px;
+border-radius: 50%;
+border: none;
+font-size: 1.3rem;
+font-weight: bold;
+cursor: pointer;
+margin: 0 auto;
+display: block;
+position: relative;
+overflow: hidden;
+text-transform: uppercase;
+letter-spacing: 1px;
+transition: all 0.3s ease;
+line-height: 1.3;
+}
+
+.buzzer.ready {
+background: linear-gradient(135deg, #FFD700, #FFA500);
+color: #000;
+box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+animation: buzzer-pulse 2s infinite;
+}
+
+.buzzer.buzzed-in {
+background: linear-gradient(135deg, #10B981, #34D399);
+color: white;
+box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+animation: none;
+}
+
+.buzzer.locked-out {
+background: linear-gradient(135deg, #EF4444, #F87171);
+color: white;
+box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+animation: none;
+}
+
+.buzzer:disabled {
+cursor: not-allowed;
+opacity: 0.7;
+}
+
+@keyframes buzzer-pulse {
+0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+}
+
+.player-info {
+text-align: center;
+font-size: 1.3rem;
+font-weight: bold;
+margin: 20px 0;
+padding: 15px;
+background: rgba(255, 215, 0, 0.15);
+border: 2px solid #FFD700;
+border-radius: 12px;
+color: #FFD700;
+}
+
+.game-controls {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+margin-top: 20px;
+flex-wrap: wrap;
+gap: 10px;
+}
+
+.score-entry {
+background: rgba(255,255,255,0.1);
+padding: 15px;
+border-radius: 12px;
+border: 2px solid rgba(255,255,255,0.3);
+}
+
+.score-entry label {
+display: block;
+margin-bottom: 8px;
+font-weight: bold;
+color: #FFD700;
+}
+
+.score-input {
+width: 80px;
+padding: 10px;
+border-radius: 8px;
+border: 2px solid rgba(255,255,255,0.3);
+background: rgba(255,255,255,0.9);
+color: #000;
+font-weight: bold;
+text-align: center;
+font-size: 16px;
+}
+
+.btn-small {
+padding: 8px 15px;
+font-size: 12px;
+margin-left: 8px;
+}
+
+.frequent-fun {
+text-align: center;
+}
+
+.frequent-fun .btn {
+font-size: 14px;
+padding: 10px 20px;
+}
+
+.dropdown {
+width: 100%;
+padding: 15px;
+border-radius: 12px;
+border: 2px solid rgba(255,255,255,0.3);
+background: rgba(255,255,255,0.1);
+color: white;
+font-size: 16px;
+margin-bottom: 15px;
+}
+
+.dropdown option {
+background: #333;
+color: white;
+}
+
+/* Connection Status */
+.connection-status {
+position: fixed;
+top: 10px;
+right: 10px;
+padding: 8px 12px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: bold;
+z-index: 1000;
+}
+
+.connected {
+background: #10B981;
+color: white;
+}
+
+.disconnected {
+background: #EF4444;
+color: white;
+}
+
+/* Final Results Styles */
+.final-results {
+text-align: center;
+padding: 30px 20px;
+}
+
+.points-announcement {
+font-size: 1.8rem;
+font-weight: bold;
+color: #FFD700;
+margin-bottom: 20px;
+animation: celebrate 2s ease-in-out infinite;
+}
+
+@keyframes celebrate {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.1); }
+}
+
+.placement-display {
+font-size: 2.5rem;
+font-weight: bold;
+margin: 20px 0;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.place-1st { color: #FFD700; }
+.place-2nd { color: #C0C0C0; }
+.place-3rd { color: #CD7F32; }
+.place-other { color: #FFF; }
+
+.final-cta {
+margin-top: 25px;
+}
+
+.final-cta p {
+font-size: 14px;
+margin-top: 10px;
+opacity: 0.8;
+}
+
+.hidden {
+display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.container {
+padding: 15px;
+}
+
+.header h1 {
+font-size: 1.8rem;
+}
+
+.buzzer {
+width: 180px;
+height: 180px;
+font-size: 1.1rem;
+}
+
+.player-info {
+font-size: 1.1rem;
+}
+
+.game-controls {
+flex-direction: column;
+align-items: center;
+}
+}
+</style>
+</head>
+<body>
+
+<!-- Sparkles Background -->
+<div id="sparkles"></div>
+
+<!-- Connection Status -->
+<div id="connectionStatus" class="connection-status disconnected">
+Connecting...
+</div>
+
+<div class="container">
+<div class="header">
+<h1>Get in the Game Show<br>PLAYER DASHBOARD</h1>
+</div>
+
+<!-- Player Setup -->
+<div id="playerSetup" class="card">
+<input type="text" class="input-field" id="playerName" placeholder="Enter your name (40 chars max)" maxlength="40">
+
+<div class="btn-row">
+<button class="btn btn-primary" onclick="createTeam()">CREATE TEAM</button>
+<button class="btn btn-success" onclick="showJoinTeam()">JOIN TEAM</button>
+</div>
+
+<div id="teamCreation" class="hidden" style="margin-top: 20px;">
+<input type="text" class="input-field" id="teamName" placeholder="Enter team name (60 chars max)" maxlength="60">
+<button class="btn btn-primary" onclick="submitTeam()">CREATE TEAM</button>
+</div>
+
+<div id="teamJoining" class="hidden" style="margin-top: 20px;">
+<select class="dropdown" id="teamSelect">
+<option value="">Select a team to join</option>
+</select>
+<button class="btn btn-success" onclick="joinSelectedTeam()">JOIN TEAM</button>
+</div>
+
+<div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.2);">
+<input type="text" class="input-field" id="gameCodeInput" placeholder="Enter 6-digit game code" maxlength="6" style="text-align: center; font-size: 18px; letter-spacing: 2px;">
+<button class="btn btn-warning" onclick="joinGame()">🎮 JOIN GAME 🎮</button>
+</div>
+</div>
+
+<!-- Player Game View -->
+<div id="playerGameView" class="hidden">
+<div class="player-info" id="playerInfo">
+Player Name | Team Name<br>
+Game 1: Round 1
+</div>
+
+<div style="text-align: center; margin-bottom: 15px;">
+<button class="btn btn-warning btn-small" onclick="changeTeam()">Change Team</button>
+<button class="btn btn-warning btn-small" onclick="leaveGame()">Leave Game</button>
+</div>
+
+<div class="buzzer-container">
+<button class="buzzer ready" id="playerBuzzer" onclick="playerBuzz()">
+Get ready to<br>Get in the Game!
+</button>
+</div>
+
+<div class="game-controls">
+<div id="scoreEntry" class="score-entry hidden">
+<label>Enter Score:</label>
+<input type="number" id="scoreInput" class="score-input" placeholder="0" min="0" max="9999">
+<button class="btn btn-success btn-small" onclick="submitScore()">Submit</button>
+</div>
+
+<div class="frequent-fun">
+<button class="btn btn-primary" onclick="joinFrequentFun()">
+Join Frequent Fun Program
+</button>
+</div>
+</div>
+
+<!-- Final Results -->
+<div id="finalResults" class="card hidden">
+<div class="final-results">
+<div class="points-announcement">
+🎉 You just earned 1000 frequent fun points! 🎉
+</div>
+
+<div id="playerPlacement" class="placement-display"></div>
+
+<div class="final-cta">
+<button class="btn btn-primary" onclick="joinFrequentFun()">
+Join Now
+</button>
+<p>Earn cool rewards and prizes for playing!</p>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+// WebSocket connection for real-time communication
+let ws = null;
+let playerState = {
+playerId: generateId(),
+name: '',
+teamName: '',
+isManager: false,
+buzzedIn: false,
+gameCode: '',
+connected: false
+};
+
+let gameState = {
+currentGame: 1,
+currentRound: 1,
+games: [],
+scoringEnabled: false,
+gameStarted: false,
+teams: {}
+};
+
+function generateId() {
+return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+}
+
+// Initialize connection
+function initializeConnection() {
+// Get WebSocket URL based on environment
+const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const wsUrl = `${protocol}//${window.location.host}`;
+
+console.log('Connecting to:', wsUrl);
+
+try {
+ws = new WebSocket(wsUrl);
+
+ws.onopen = function() {
+console.log('WebSocket connected');
+updateConnectionStatus(true);
+};
+
+ws.onmessage = function(event) {
+console.log('Received:', event.data);
+handleMessage(event.data);
+};
+
+ws.onclose = function() {
+console.log('WebSocket disconnected');
+updateConnectionStatus(false);
+// Attempt to reconnect after 2 seconds
+setTimeout(initializeConnection, 2000);
+};
+
+ws.onerror = function(error) {
+console.error('WebSocket error:', error);
+updateConnectionStatus(false);
+};
+} catch (error) {
+console.error('Failed to create WebSocket:', error);
+updateConnectionStatus(false);
+setTimeout(initializeConnection, 2000);
+}
+}
+
+function updateConnectionStatus(connected) {
+playerState.connected = connected;
+const status = document.getElementById('connectionStatus');
+if (connected) {
+status.textContent = 'Connected';
+status.className = 'connection-status connected';
+} else {
+status.textContent = 'Reconnecting...';
+status.className = 'connection-status disconnected';
+}
+}
+
+// Sparkles Animation
+function createSparkles() {
+const sparklesContainer = document.getElementById('sparkles');
+for (let i = 0; i < 12; i++) {
+const sparkle = document.createElement('div');
+sparkle.className = 'sparkle';
+sparkle.style.left = Math.random() * 100 + '%';
+sparkle.style.top = Math.random() * 100 + '%';
+sparkle.style.animationDelay = Math.random() * 3 + 's';
+sparklesContainer.appendChild(sparkle);
+}
+}
+
+// Audio Functions - REPLACE THESE WITH YOUR MP3 FILES
+function playBuzzerSound() {
+// REPLACE WITH YOUR BUZZER MP3:
+// const audio = new Audio('/audio/buzzer.mp3');
+// audio.play().catch(e => console.log('Audio play failed:', e));
+
+// Placeholder buzzer sound
+try {
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const oscillator = audioContext.createOscillator();
+const gainNode = audioContext.createGain();
+oscillator.connect(gainNode);
+gainNode.connect(audioContext.destination);
+oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+oscillator.start(audioContext.currentTime);
+oscillator.stop(audioContext.currentTime + 0.5);
+} catch (e) {
+console.log('Audio not supported');
+}
+}
+
+// TEAM MANAGEMENT FUNCTIONS
+function createTeam() {
+const playerName = document.getElementById('playerName').value.trim();
+if (!playerName) {
+alert('Please enter your name first!');
+return;
+}
+
+playerState.name = playerName;
+document.getElementById('teamCreation').classList.remove('hidden');
+document.getElementById('teamJoining').classList.add('hidden');
+}
+
+function showJoinTeam() {
+const playerName = document.getElementById('playerName').value.trim();
+if (!playerName) {
+alert('Please enter your name first!');
+return;
+}
+
+playerState.name = playerName;
+updateTeamDropdown();
+document.getElementById('teamJoining').classList.remove('hidden');
+document.getElementById('teamCreation').classList.add('hidden');
+}
+
+function submitTeam() {
+const teamName = document.getElementById('teamName').value.trim();
+if (!teamName) {
+alert('Please enter a team name!');
+return;
+}
+
+playerState.teamName = teamName;
+playerState.isManager = true;
+
+// Note: Team creation doesn't require server connection yet
+// Teams are created when joining a game
+alert(`Team "${teamName}" will be created when you join a game. You are the manager.`);
+document.getElementById('teamName').value = '';
+updateTeamDropdown();
+}
+
+function updateTeamDropdown() {
+const select = document.getElementById('teamSelect');
+select.innerHTML = '<option value="">Select a team to join</option>';
+// In a real implementation, this would be populated by server data
+// For now, simulate some teams
+const sampleTeams = ['Team Alpha', 'The Winners', 'Quiz Masters'];
+sampleTeams.forEach(teamName => {
+if (teamName !== playerState.teamName) {
+const option = document.createElement('option');
+option.value = teamName;
+option.textContent = `${teamName} (3/6 players)`;
+select.appendChild(option);
+}
+});
+}
+
+function joinSelectedTeam() {
+const teamName = document.getElementById('teamSelect').value;
+if (!teamName) {
+alert('Please select a team!');
+return;
+}
+
+playerState.teamName = teamName;
+playerState.isManager = false;
+
+alert(`You will join team "${teamName}" when you enter the game.`);
+updateTeamDropdown();
+}
+
+function joinGame() {
+const gameCode = document.getElementById('gameCodeInput').value.trim();
+if (!gameCode || gameCode.length !== 6) {
+alert('Please enter a valid 6-digit game code!');
+return;
+}
+
+if (!playerState.teamName) {
+alert('Please create or join a team first!');
+return;
+}
+
+if (!ws || ws.readyState !== WebSocket.OPEN) {
+alert('Not connected to server. Please wait...');
+return;
+}
+
+playerState.gameCode = gameCode;
+
+// Send join request to server
+ws.send(JSON.stringify({
+type: 'JOIN_GAME',
+playerId: playerState.playerId,
+playerName: playerState.name,
+teamName: playerState.teamName,
+gameCode: gameCode,
+isManager: playerState.isManager
+}));
+}
+
+function updatePlayerGameInfo() {
+if (!gameState.gameStarted) {
+document.getElementById('playerInfo').innerHTML = 
+`${playerState.name} | ${playerState.teamName}<br>Waiting for host to start game...`;
+return;
+}
+
+const currentGameName = gameState.games[gameState.currentGame - 1] ? 
+gameState.games[gameState.currentGame - 1][0] : 'Game';
+
+document.getElementById('playerInfo').innerHTML = 
+`${playerState.name} | ${playerState.teamName}<br>Game ${gameState.currentGame}: ${currentGameName} - Round ${gameState.currentRound}`;
+
+// Show/hide score entry for managers
+const scoreEntry = document.getElementById('scoreEntry');
+if (playerState.isManager && gameState.scoringEnabled) {
+scoreEntry.classList.remove('hidden');
+} else {
+scoreEntry.classList.add('hidden');
+}
+}
+
+// BUZZER FUNCTIONS
+function playerBuzz() {
+if (playerState.buzzedIn) return;
+
+if (!gameState.gameStarted) {
+alert('Game hasn\'t started yet!');
+return;
+}
+
+if (!ws || ws.readyState !== WebSocket.OPEN) {
+alert('Not connected to server!');
+return;
+}
+
+playBuzzerSound();
+
+// Send buzz to server
+ws.send(JSON.stringify({
+type: 'PLAYER_BUZZ',
+playerId: playerState.playerId,
+playerName: playerState.name,
+teamName: playerState.teamName,
+gameCode: playerState.gameCode,
+timestamp: Date.now()
+}));
+
+// Optimistically update UI (server will confirm)
+setBuzzerState('buzzed');
+}
+
+function setBuzzerState(state) {
+const buzzer = document.getElementById('playerBuzzer');
+buzzer.className = `buzzer ${state}`;
+
+switch(state) {
+case 'ready':
+buzzer.innerHTML = 'Get ready to<br>Get in the Game!';
+playerState.buzzedIn = false;
+break;
+case 'buzzed':
+buzzer.textContent = "You're in!";
+playerState.buzzedIn = true;
+break;
+case 'locked':
+buzzer.textContent = 'Your teammate beat you to it!';
+break;
+}
+}
+
+function resetBuzzer() {
+setBuzzerState('ready');
+}
+
+// SCORING FUNCTIONS
+function submitScore() {
+if (!playerState.isManager) return;
+
+const scoreInput = document.getElementById('scoreInput');
+const score = parseInt(scoreInput.value) || 0;
+
+if (score < 0 || score > 9999) {
+alert('Please enter a score between 0 and 9999');
+return;
+}
+
+if (!ws || ws.readyState !== WebSocket.OPEN) {
+alert('Not connected to server!');
+return;
+}
+
+// Send score to server
+ws.send(JSON.stringify({
+type: 'SUBMIT_SCORE',
+playerId: playerState.playerId,
+teamName: playerState.teamName,
+gameCode: playerState.gameCode,
+score: score,
+game: gameState.currentGame,
+round: gameState.currentRound
+}));
+
+scoreInput.value = '';
+document.getElementById('scoreEntry').classList.add('hidden');
+gameState.scoringEnabled = false;
+
+alert('Score submitted successfully!');
+}
+
+// NAVIGATION FUNCTIONS
+function changeTeam() {
+// Leave current team
+if (ws && ws.readyState === WebSocket.OPEN && playerState.teamName) {
+ws.send(JSON.stringify({
+type: 'LEAVE_GAME',
+playerId: playerState.playerId,
+gameCode: playerState.gameCode
+}));
+}
+
+// Reset player state
+playerState.teamName = '';
+playerState.isManager = false;
+playerState.buzzedIn = false;
+playerState.gameCode = '';
+
+// Show team selection again
+document.getElementById('playerGameView').classList.add('hidden');
+document.getElementById('playerSetup').classList.remove('hidden');
+updateTeamDropdown();
+}
+
+function leaveGame() {
+if (confirm('Are you sure you want to leave the game?')) {
+// Leave game
+if (ws && ws.readyState === WebSocket.OPEN) {
+ws.send(JSON.stringify({
+type: 'LEAVE_GAME',
+playerId: playerState.playerId,
+gameCode: playerState.gameCode
+}));
+}
+
+// Reset state
+playerState.gameCode = '';
+playerState.buzzedIn = false;
+
+// Return to setup
+document.getElementById('playerGameView').classList.add('hidden');
+document.getElementById('playerSetup').classList.remove('hidden');
+}
+}
+
+function joinFrequentFun() {
+// Replace with your actual Rainmaker funnel URL
+window.open('https://your-rainmaker-funnel-url.com', '_blank');
+}
+
+// FINAL RESULTS FUNCTIONS
+function showFinalResults(placement, totalScore) {
+const placementDiv = document.getElementById('playerPlacement');
+let placeClass = 'place-other';
+if (placement === 1) placeClass = 'place-1st';
+else if (placement === 2) placeClass = 'place-2nd';
+else if (placement === 3) placeClass = 'place-3rd';
+
+const suffix = getOrdinalSuffix(placement);
+
+placementDiv.innerHTML = `
+<div class="${placeClass}">
+${placement}${suffix} Place!<br>
+${totalScore} points
+</div>
+`;
+
+// Create confetti effect
+createConfetti();
+
+document.getElementById('finalResults').classList.remove('hidden');
+}
+
+function getOrdinalSuffix(num) {
+const j = num % 10;
+const k = num % 100;
+if (j == 1 && k != 11) return 'st';
+if (j == 2 && k != 12) return 'nd';
+if (j == 3 && k != 13) return 'rd';
+return 'th';
+}
+
+function createConfetti() {
+// Create confetti overlay
+const celebration = document.createElement('div');
+celebration.style.cssText = `
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 1000;
+`;
+document.body.appendChild(celebration);
+
+const colors = ['#FFD700', '#FF69B4', '#00BFFF', '#32CD32', '#FF4500', '#9C27B0'];
+
+for (let i = 0; i < 50; i++) {
+setTimeout(() => {
+const confetti = document.createElement('div');
+confetti.style.cssText = `
+position: absolute;
+width: ${Math.random() * 8 + 4}px;
+height: ${Math.random() * 8 + 4}px;
+background: ${colors[Math.floor(Math.random() * colors.length)]};
+left: ${Math.random() * 100}vw;
+top: -10px;
+border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+animation: confetti-fall ${Math.random() * 3 + 2}s linear forwards;
+`;
+celebration.appendChild(confetti);
+}, i * 50);
+}
+
+// Add CSS animation if not already added
+if (!document.getElementById('confetti-style')) {
+const style = document.createElement('style');
+style.id = 'confetti-style';
+style.textContent = `
+@keyframes confetti-fall {
+to {
+transform: translateY(100vh) rotate(720deg);
+opacity: 0;
+}
+}
+`;
+document.head.appendChild(style);
+}
+
+// Clean up after animation
+setTimeout(() => {
+celebration.remove();
+}, 5000);
+}
+
+// WEBSOCKET MESSAGE HANDLING
+function handleMessage(data) {
+const message = JSON.parse(data);
+console.log('Handling message:', message.type);
+
+switch(message.type) {
+case 'GAME_JOINED':
+// Successfully joined game
+gameState.gameStarted = message.gameStarted;
+gameState.currentGame = message.currentGame;
+gameState.currentRound = message.currentRound;
+gameState.games = message.games;
+
+// Switch to game view
+document.getElementById('playerSetup').classList.add('hidden');
+document.getElementById('playerGameView').classList.remove('hidden');
+updatePlayerGameInfo();
+break;
+
+case 'GAME_STARTED':
+gameState.gameStarted = true;
+gameState.games = message.games;
+gameState.currentGame = message.currentGame;
+gameState.currentRound = message.currentRound;
+updatePlayerGameInfo();
+break;
+
+case 'ROUND_UPDATE':
+gameState.currentGame = message.currentGame;
+gameState.currentRound = message.currentRound;
+updatePlayerGameInfo();
+break;
+
+case 'ENABLE_SCORING':
+gameState.scoringEnabled = true;
+updatePlayerGameInfo();
+break;
+
+case 'CLEAR_BUZZERS':
+resetBuzzer();
+break;
+
+case 'BUZZ_RESPONSE':
+// Server response to buzz attempt
+if (message.playerId === playerState.playerId) {
+if (message.success) {
+setBuzzerState('buzzed');
+} else {
+if (message.reason === 'Teammate already buzzed') {
+setBuzzerState('locked');
+} else {
+// Reset to ready if buzz failed for other reasons
+setBuzzerState('ready');
+alert(message.reason);
+}
+}
+}
+break;
+
+case 'MANAGER_CHANGED':
+if (message.teamName === playerState.teamName && message.newManagerId === playerState.playerId) {
+playerState.isManager = true;
+updatePlayerGameInfo();
+alert('You are now the team manager!');
+}
+break;
+
+case 'SCORE_CONFIRMED':
+alert(`Score submitted: ${message.score} points. Team total: ${message.totalScore}`);
+break;
+
+case 'REVEAL_FINAL_SCORES':
+// Find our team in standings
+const ourTeam = message.standings.find(team => team.name === playerState.teamName);
+if (ourTeam) {
+const placement = message.standings.indexOf(ourTeam) + 1;
+showFinalResults(placement, ourTeam.score);
+}
+break;
+
+case 'HOST_DISCONNECTED':
+alert('Host has disconnected. The game may end soon.');
+break;
+
+case 'ERROR':
+alert('Error: ' + message.message);
+break;
+}
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+createSparkles();
+initializeConnection();
+});
+
+// Handle page visibility change for reconnection
+document.addEventListener('visibilitychange', function() {
+if (!document.hidden && (!ws || ws.readyState === WebSocket.CLOSED)) {
+initializeConnection();
+
+// Rejoin game if we were in one
+if (playerState.gameCode && playerState.teamName) {
+setTimeout(() => {
+if (ws && ws.readyState === WebSocket.OPEN) {
+ws.send(JSON.stringify({
+type: 'REJOIN_GAME',
+playerId: playerState.playerId,
+playerName: playerState.name,
+teamName: playerState.teamName,
+gameCode: playerState.gameCode,
+isManager: playerState.isManager
+}));
+}
+}, 1000);
+}
+}
+});
+
+// Handle browser back/forward
+window.addEventListener('beforeunload', function(e) {
+if (playerState.gameCode && ws && ws.readyState === WebSocket.OPEN) {
+// Let server know we're leaving
+ws.send(JSON.stringify({
+type: 'PLAYER_DISCONNECT',
+playerId: playerState.playerId,
+gameCode: playerState.gameCode
+}));
+}
+});
+
+// Auto-format game code input
+document.getElementById('gameCodeInput').addEventListener('input', function(e) {
+let value = e.target.value.replace(/[^0-9]/g, '');
+if (value.length > 6) value = value.substr(0, 6);
+e.target.value = value;
+});
+</script>
+
+</body>
+</html>
