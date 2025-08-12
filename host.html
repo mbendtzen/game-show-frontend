@@ -323,6 +323,40 @@ font-size: 2.5rem;
 }
 }
 </style>
+<style>
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%);
+}
+
+.btn:hover:before {
+    width: 300px;
+    height: 300px;
+}
+</style>
+
 </head>
 <body>
 
@@ -348,7 +382,7 @@ Connecting...
 <!-- Game Creation -->
 <div id="gameCreation" class="card">
 <button class="btn btn-primary" onclick="createGame()" style="width: 100%; margin-bottom: 20px; font-size: 16px; padding: 15px;">
-🎮 CREATE NEW GAME 🎮
+⭐️ CREATE NEW GAME ⭐️
 </button>
 
 <div id="gameSetup" class="hidden">
@@ -1032,6 +1066,41 @@ break;
 case 'ERROR':
 alert('Error: ' + message.message);
 break;
+      case 'PLAYER_JOINED':
+    // Log for debugging
+    console.log('Player joined:', message.playerName, 'team:', message.teamName);
+
+    // If server sent the full teams array, rebuild gameState.teams and refresh UI
+    if (message.teams && Array.isArray(message.teams)) {
+        gameState.teams = {};
+        message.teams.forEach(team => {
+            // keep shape expected elsewhere in host code
+            gameState.teams[team.name] = {
+                members: team.members || [],
+                totalScore: team.totalScore || 0,
+                roundScores: team.roundScores || []
+            };
+        });
+        // update UI that shows teams/scores (uses your existing function)
+        if (typeof updateTeamScores === 'function') updateTeamScores();
+    } else {
+        // Otherwise add single player into the team
+        if (!gameState.teams) gameState.teams = {};
+        if (!gameState.teams[message.teamName]) {
+            gameState.teams[message.teamName] = { members: [], totalScore: 0, roundScores: [] };
+        }
+        // prevent duplicates
+        const exists = gameState.teams[message.teamName].members.some(m => m.playerId === message.playerId);
+        if (!exists) {
+            gameState.teams[message.teamName].members.push({
+                playerId: message.playerId,
+                name: message.playerName,
+                isManager: message.isManager
+            });
+        }
+        if (typeof updateTeamScores === 'function') updateTeamScores();
+    }
+    break;
 }
 }
 
@@ -1060,53 +1129,4 @@ gameCode: gameState.gameCode
 </script>
 
 </body>
-</html>_JOINED':
-// Player joined a team
-if (!gameState.teams[message.teamName]) {
-gameState.teams[message.teamName] = {
-members: [],
-totalScore: 0,
-roundScores: []
-};
-}
-gameState.teams[message.teamName].members.push({
-playerId: message.playerId,
-name: message.playerName,
-isManager: message.isManager
-});
-updateTeamScores();
-break;
-
-case 'PLAYER {
-padding: 10px 20px;
-border: none;
-border-radius: 12px;
-font-weight: bold;
-font-size: 14px;
-cursor: pointer;
-transition: all 0.3s ease;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-position: relative;
-overflow: hidden;
-}
-
-.btn:before {
-content: '';
-position: absolute;
-top: 50%;
-left: 50%;
-width: 0;
-height: 0;
-background: rgba(255,255,255,0.3);
-border-radius: 50%;
-transition: all 0.5s ease;
-transform: translate(-50%, -50%);
-}
-
-.btn:hover:before {
-width: 300px;
-height: 300px;
-}
-
-.btn
+</html>
