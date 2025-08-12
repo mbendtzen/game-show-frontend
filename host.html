@@ -466,7 +466,7 @@ gameEnded: false
 function initializeConnection() {
 // Get WebSocket URL based on environment
 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const wsUrl = `${protocol}//${window.location.host}`;
+const wsUrl = `wss://game-show-backend.onrender.com`;
 
 console.log('Connecting to:', wsUrl);
 
