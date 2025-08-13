@@ -1157,7 +1157,11 @@
                     break;
 
                 case 'ERROR':
-                    alert('Error: ' + message.message);
+    console.log('Server error:', message.message);
+    // Only show alert for important errors
+    if (message.message.includes('not found') || message.message.includes('Game') || message.message.includes('Team')) {
+        alert('Error: ' + message.message);
+    }
                     
                     // If game not found, return to code entry
                     if (message.message.includes('not found')) {
