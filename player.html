@@ -698,29 +698,41 @@
         });
 
         function createTeam() {
-            const playerName = document.getElementById('playerName').value.trim();
-            if (!playerName) {
-                alert('Please enter your name first!');
-                return;
-            }
+    const playerName = document.getElementById('playerName').value.trim();
+    if (!playerName) {
+        alert('Please enter your name first!');
+        return;
+    }
 
-            playerState.name = playerName;
-            document.getElementById('teamCreation').classList.remove('hidden');
-            document.getElementById('teamJoining').classList.add('hidden');
-        }
+    playerState.name = playerName;
+    
+    // Hide name input and team choice buttons
+    document.getElementById('playerName').style.display = 'none';
+    document.getElementById('teamOptions').style.display = 'none';
+    
+    // Show team creation form
+    document.getElementById('teamCreation').classList.remove('hidden');
+    document.getElementById('teamJoining').classList.add('hidden');
+}
 
         function showJoinTeam() {
-            const playerName = document.getElementById('playerName').value.trim();
-            if (!playerName) {
-                alert('Please enter your name first!');
-                return;
-            }
+    const playerName = document.getElementById('playerName').value.trim();
+    if (!playerName) {
+        alert('Please enter your name first!');
+        return;
+    }
 
-            playerState.name = playerName;
-            requestTeamList();
-            document.getElementById('teamJoining').classList.remove('hidden');
-            document.getElementById('teamCreation').classList.add('hidden');
-        }
+    playerState.name = playerName;
+    
+    // Hide name input and team choice buttons
+    document.getElementById('playerName').style.display = 'none';
+    document.getElementById('teamOptions').style.display = 'none';
+    
+    // Show team joining form
+    requestTeamList();
+    document.getElementById('teamJoining').classList.remove('hidden');
+    document.getElementById('teamCreation').classList.add('hidden');
+}
 
         function requestTeamList() {
             if (!ws || ws.readyState !== WebSocket.OPEN) {
@@ -913,30 +925,31 @@
 
         // NAVIGATION FUNCTIONS
         function changeTeam() {
-            // Leave current team
-            if (ws && ws.readyState === WebSocket.OPEN && playerState.teamName) {
-                ws.send(JSON.stringify({
-                    type: 'LEAVE_GAME',
-                    playerId: playerState.playerId,
-                    gameCode: playerState.gameCode
-                }));
-            }
+    // Leave current team
+    if (ws && ws.readyState === WebSocket.OPEN && playerState.teamName) {
+        ws.send(JSON.stringify({
+            type: 'LEAVE_GAME',
+            playerId: playerState.playerId,
+            gameCode: playerState.gameCode
+        }));
+    }
 
-            // Reset player state
-            playerState.teamName = '';
-            playerState.isManager = false;
-            playerState.buzzedIn = false;
+    // Reset player state
+    playerState.teamName = '';
+    playerState.isManager = false;
+    playerState.buzzedIn = false;
 
-            // Show team selection again
-            document.getElementById('playerGameView').classList.add('hidden');
-            document.getElementById('playerSetup').classList.remove('hidden');
-            
-            // Reset setup form
-            document.getElementById('teamOptions').classList.remove('hidden');
-            document.getElementById('teamCreation').classList.add('hidden');
-            document.getElementById('teamJoining').classList.add('hidden');
-        }
-
+    // Show team selection again
+    document.getElementById('playerGameView').classList.add('hidden');
+    document.getElementById('playerSetup').classList.remove('hidden');
+    
+    // Reset and show setup form elements
+    document.getElementById('playerName').style.display = 'block';
+    document.getElementById('teamOptions').classList.remove('hidden');
+    document.getElementById('teamCreation').classList.add('hidden');
+    document.getElementById('teamJoining').classList.add('hidden');
+}
+        
         function leaveGame() {
             if (confirm('Are you sure you want to leave the game?')) {
                 // Leave game
