@@ -730,8 +730,8 @@
     playerState.name = playerName;
     
     // Hide name input and team choice buttons
-    document.getElementById('playerName').style.display = 'none';
-    document.getElementById('teamOptions').style.display = 'none';
+    document.getElementById('playerName').classList.add('hidden');
+    document.getElementById('teamOptions').classList.add('hidden');
     
     // Show team creation form
     document.getElementById('teamCreation').classList.remove('hidden');
@@ -748,8 +748,8 @@
     playerState.name = playerName;
     
     // Hide name input and team choice buttons
-    document.getElementById('playerName').style.display = 'none';
-    document.getElementById('teamOptions').style.display = 'none';
+    document.getElementById('playerName').classList.add('hidden');
+    document.getElementById('teamOptions').classList.add('hidden');
     
     // Show team joining form
     requestTeamList();
