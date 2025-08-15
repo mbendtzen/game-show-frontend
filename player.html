@@ -464,16 +464,22 @@
                 <button class="btn btn-success" onclick="showJoinTeam()">JOIN TEAM</button>
             </div>
 
-            <div id="teamCreation" class="hidden" style="margin-top: 20px;">
+           <div id="teamCreation" class="hidden" style="margin-top: 20px;">
                 <input type="text" class="input-field" id="teamName" placeholder="Enter team name (60 chars max)" maxlength="60">
-                <button class="btn btn-primary" onclick="submitTeam()">CREATE TEAM</button>
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="submitTeam()">CREATE TEAM</button>
+                    <button class="btn btn-warning" onclick="goBackToTeamChoice()">GO BACK</button>
+                </div>
             </div>
 
             <div id="teamJoining" class="hidden" style="margin-top: 20px;">
                 <select class="dropdown" id="teamSelect">
                     <option value="">Select a team to join</option>
                 </select>
-                <button class="btn btn-success" onclick="joinSelectedTeam()">JOIN TEAM</button>
+                <div class="btn-row">
+                    <button class="btn btn-success" onclick="joinSelectedTeam()">JOIN TEAM</button>
+                    <button class="btn btn-warning" onclick="goBackToTeamChoice()">GO BACK</button>
+                </div>
             </div>
         </div>
 
