@@ -1278,7 +1278,7 @@
 
         function goBackToTeamChoice() {
     // Show name input and team choice buttons again
-    document.getElementById('playerName').style.display = 'block';
+    document.getElementById('playerName').classList.remove('hidden');
     document.getElementById('teamOptions').classList.remove('hidden');
     
     // Hide both team creation and joining forms
