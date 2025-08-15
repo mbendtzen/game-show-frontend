@@ -1027,57 +1027,77 @@
         }
 
         function createConfetti() {
-            const celebration = document.createElement('div');
-            celebration.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 1000;
-            `;
-            document.body.appendChild(celebration);
+    const celebration = document.createElement('div');
+    celebration.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+    `;
+    document.body.appendChild(celebration);
 
-            const colors = ['#FFD700', '#FF69B4', '#00BFFF', '#32CD32', '#FF4500', '#9C27B0'];
+    const colors = ['#FFD700', '#FF69B4', '#00BFFF', '#32CD32', '#FF4500', '#9C27B0'];
+    let confettiInterval;
 
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.style.cssText = `
-                        position: absolute;
-                        width: ${Math.random() * 8 + 4}px;
-                        height: ${Math.random() * 8 + 4}px;
-                        background: ${colors[Math.floor(Math.random() * colors.length)]};
-                        left: ${Math.random() * 100}vw;
-                        top: -10px;
-                        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
-                        animation: confetti-fall ${Math.random() * 3 + 2}s linear forwards;
-                    `;
-                    celebration.appendChild(confetti);
-                }, i * 50);
-            }
-
-            // Add CSS animation if not already added
-            if (!document.getElementById('confetti-style')) {
-                const style = document.createElement('style');
-                style.id = 'confetti-style';
-                style.textContent = `
-                    @keyframes confetti-fall {
-                        to {
-                            transform: translateY(100vh) rotate(720deg);
-                            opacity: 0;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            // Clean up after animation
+    function createConfettiBurst() {
+        for (let i = 0; i < 15; i++) {
             setTimeout(() => {
-                celebration.remove();
-            }, 5000);
+                const confetti = document.createElement('div');
+                confetti.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 8 + 4}px;
+                    height: ${Math.random() * 8 + 4}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                    animation: confetti-fall ${Math.random() * 3 + 2}s linear forwards;
+                `;
+                celebration.appendChild(confetti);
+                
+                // Remove confetti piece after animation
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }, i * 30);
         }
+    }
+
+    // Create initial burst
+    createConfettiBurst();
+    
+    // Continue creating bursts every 1.5 seconds
+    confettiInterval = setInterval(createConfettiBurst, 1500);
+
+    // Add CSS animation if not already added
+    if (!document.getElementById('confetti-style')) {
+        const style = document.createElement('style');
+        style.id = 'confetti-style';
+        style.textContent = `
+            @keyframes confetti-fall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Clean up after 30 seconds (or when user leaves)
+    setTimeout(() => {
+        clearInterval(confettiInterval);
+        celebration.remove();
+    }, 30000);
+
+    // Store interval ID globally so it can be cleared if needed
+    window.confettiInterval = confettiInterval;
+}
 
         // WEBSOCKET MESSAGE HANDLING
         function handleMessage(data) {
