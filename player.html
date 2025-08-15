@@ -1239,6 +1239,20 @@
             }
         });
 
+        function goBackToTeamChoice() {
+    // Show name input and team choice buttons again
+    document.getElementById('playerName').style.display = 'block';
+    document.getElementById('teamOptions').classList.remove('hidden');
+    
+    // Hide both team creation and joining forms
+    document.getElementById('teamCreation').classList.add('hidden');
+    document.getElementById('teamJoining').classList.add('hidden');
+    
+    // Clear any entered data
+    document.getElementById('teamName').value = '';
+    document.getElementById('teamSelect').innerHTML = '<option value="">Select a team to join</option>';
+}
+        
     </script>
 </body>
 </html>
