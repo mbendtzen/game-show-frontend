@@ -11,9 +11,9 @@
             box-sizing: border-box;
         }
 
-        body {
+      body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #4A148C 0%, #7B1FA2 30%, #8E24AA 60%, #9C27B0 100%);
+            background: linear-gradient(135deg, #455cd2 0%, #3b4dbf 30%, #2d3ea6 60%, #1e2f8d 100%);
             min-height: 100vh;
             color: white;
             overflow-x: hidden;
@@ -252,16 +252,20 @@
             100% { transform: scale(1); }
         }
 
-        .player-info {
+       .player-info {
             text-align: center;
             font-size: 1.3rem;
             font-weight: bold;
             margin: 20px 0;
             padding: 15px;
-            background: rgba(255, 215, 0, 0.15);
-            border: 2px solid #FFD700;
+            background: linear-gradient(135deg, #9325ac 0%, #7a1f8a 50%, #621968 100%);
+            border: 3px solid #FFD700;
             border-radius: 12px;
             color: #FFD700;
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.4),
+                0 8px 16px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.2);
         }
 
         .game-controls {
@@ -323,6 +327,11 @@
             padding: 10px 20px;
         }
 
+        .frequent-fun .btn {
+            background: linear-gradient(45deg, #ac5ef8, #8b4fd1) !important;
+            box-shadow: 0 4px 15px rgba(172, 94, 248, 0.4) !important;
+        }
+        
         .dropdown {
             width: 100%;
             padding: 15px;
@@ -614,14 +623,19 @@
         }
 
         // Sparkles Animation
-        function createSparkles() {
+     function createSparkles() {
             const sparklesContainer = document.getElementById('sparkles');
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 25; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
                 sparkle.style.left = Math.random() * 100 + '%';
                 sparkle.style.top = Math.random() * 100 + '%';
                 sparkle.style.animationDelay = Math.random() * 3 + 's';
+                
+                // Mix of gold and silver sparkles
+                const colors = ['#FFD700', '#FFA500', '#FFFFFF', '#C0C0C0', '#E6E6FA'];
+                sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
                 sparklesContainer.appendChild(sparkle);
             }
         }
