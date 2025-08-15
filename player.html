@@ -455,7 +455,7 @@
         <!-- Step 1: Game Code Entry -->
         <div id="gameCodeEntry" class="card">
             <input type="text" class="input-field" id="gameCodeInput" placeholder="Enter 6-digit game code" maxlength="6" style="text-align: center; font-size: 18px; letter-spacing: 2px;">
-            <button class="btn btn-warning" onclick="joinGame()">🎮 JOIN GAME 🎮</button>
+            <button class="btn btn-warning" onclick="joinGame()">⭐️ JOIN GAME 🌀</button>
         </div>
 
         <!-- Step 2: Player Setup -->
@@ -512,7 +512,7 @@
 
                 <div class="frequent-fun">
                     <button class="btn btn-primary" onclick="joinFrequentFun()">
-                        Join Frequent Fun Program
+                        💎 Join Frequent Fun Program 💎
                     </button>
                 </div>
             </div>
@@ -523,14 +523,14 @@
                     <div id="playerPlacement" class="placement-display"></div>
                     
                     <div class="points-announcement">
-                        🎉 You just earned 1000 frequent fun points! 🎉
+                        🎉 You Just Earned 1000 Frequent Flier sMiles! 😃
                     </div>
 
                     <div class="final-cta">
                         <button class="btn btn-primary" onclick="joinFrequentFun()">
-                            Join Now
+                            💎 Join Now 💎
                         </button>
-                        <p>Earn cool rewards and prizes for playing!</p>
+                        <p>Earn cool rewards and prizes just for playing!</p>
                     </div>
                 </div>
             </div>
@@ -883,7 +883,7 @@
                     playerState.buzzedIn = false;
                     break;
                 case 'buzzed':
-                    buzzer.textContent = "You're in!";
+                    buzzer.textContent = "You're in! <br>Wait for host to call on you!";
                     playerState.buzzedIn = true;
                     break;
                 case 'locked':
@@ -928,7 +928,7 @@
             document.getElementById('scoreEntry').classList.add('hidden');
             gameState.scoringEnabled = false;
 
-            alert('Score submitted successfully!');
+            alert('Score submitted successfully! 🙌');
         }
 
         // NAVIGATION FUNCTIONS
