@@ -151,18 +151,11 @@
         }
 
         /* Animations */
-        @keyframes diamond-twinkle {
-            0%, 100% { 
-                opacity: 0.3; 
-                transform: scale(0.8) rotate(0deg);
-                filter: brightness(1);
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.3) rotate(180deg);
-                filter: brightness(2);
-            }
-        }
+@keyframes diamond-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.8); }
+}
+
 
         @keyframes studio-pulse {
             0%, 100% { 
