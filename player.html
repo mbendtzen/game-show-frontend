@@ -29,156 +29,59 @@
   overflow: hidden;
 }
 
-        /* NEW SHARP DIAMOND SPARKLE SYSTEM */
-        .sparkle {
-            position: fixed;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Sharp Diamond Sparkles - Small */
-        .sparkle-diamond {
-            width: 4px;
-            height: 4px;
-            background: radial-gradient(circle, #ffffff 0%, #ffffff 30%, rgba(255,255,255,0.8) 50%, transparent 70%);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 8px #ffffff,
-                0 0 16px rgba(255,255,255,0.6),
-                0 0 24px rgba(255,255,255,0.3);
-            animation: diamond-twinkle 2.5s infinite ease-in-out;
-            filter: brightness(1.5);
-        }
-
-        /* Studio Light Cross - 4-pointed star */
-        .sparkle-studio {
-            width: 20px;
-            height: 20px;
-            position: relative;
-            animation: studio-pulse 4s infinite ease-in-out;
-        }
-
-        .sparkle-studio::before,
-        .sparkle-studio::after {
-            content: '';
-            position: absolute;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 20%, #ffffff 50%, rgba(255,255,255,0.1) 80%, transparent 100%);
-            box-shadow: 0 0 20px rgba(255,255,255,0.8);
-        }
-
-        .sparkle-studio::before {
-            width: 60px;
-            height: 2px;
-            left: -20px;
-            top: 9px;
-        }
-
-        .sparkle-studio::after {
-            width: 2px;
-            height: 60px;
-            left: 9px;
-            top: -20px;
-            background: linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.1) 20%, #ffffff 50%, rgba(255,255,255,0.1) 80%, transparent 100%);
-        }
-
-        /* Large Studio Lights - Really bright */
-        .sparkle-studio-large {
-            width: 30px;
-            height: 30px;
-            position: relative;
-            animation: studio-pulse-large 5s infinite ease-in-out;
-        }
-
-        .sparkle-studio-large::before,
-        .sparkle-studio-large::after {
-            content: '';
-            position: absolute;
-            box-shadow: 
-                0 0 30px #ffffff,
-                0 0 60px rgba(255,255,255,0.6),
-                0 0 90px rgba(255,255,255,0.3);
-        }
-
-        .sparkle-studio-large::before {
-            width: 100px;
-            height: 3px;
-            left: -35px;
-            top: 13px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 15%, #ffffff 50%, rgba(255,255,255,0.2) 85%, transparent 100%);
-        }
-
-        .sparkle-studio-large::after {
-            width: 3px;
-            height: 100px;
-            left: 13px;
-            top: -35px;
-            background: linear-gradient(0deg, transparent 0%, rgba(255,255,255,0.2) 15%, #ffffff 50%, rgba(255,255,255,0.2) 85%, transparent 100%);
-        }
-
-        /* Sharp Corner Lights */
-        .sparkle-corner {
-            width: 40px;
-            height: 40px;
-            position: relative;
-            animation: corner-flash 6s infinite ease-in-out;
-        }
-
-        .sparkle-corner::before {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.8) 30%, transparent 70%);
-            border-radius: 50%;
-            left: 16px;
-            top: 16px;
-            box-shadow: 
-                0 0 40px #ffffff,
-                0 0 80px rgba(255,255,255,0.5),
-                0 0 120px rgba(255,255,255,0.2);
-        }
-
-        .sparkle-corner::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, #ffffff 20%, #ffffff 80%, transparent 100%);
-            left: -20px;
-            top: 20px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.8);
-            transform: rotate(45deg);
-        }
-
-        /* Animations */
-@keyframes diamond-twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.8); }
+        /* Diamond sparkle ✦ */
+.sparkle { 
+  position:absolute; 
+  will-change: transform, opacity; 
+  pointer-events:none; 
+}
+.sparkle::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    linear-gradient(45deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%),
+    radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,.85) 40%, rgba(255,255,255,0) 70%);
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.55)) drop-shadow(0 0 12px rgba(255,255,255,.25));
 }
 
-
-        @keyframes studio-pulse {
-            0%, 100% { 
-                opacity: 0.4;
-                transform: scale(1);
-            }
-            50% { 
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
- @keyframes studio-pulse-large {
-  0%, 100% { 
-      opacity: 0.3;
-      transform: scale(1);
-  }
-  50% { 
-      opacity: 0.9;
-      transform: scale(1.1);
-  }
+@keyframes sparkle-pop {
+  0%   { opacity:0; transform: scale(.4) rotate(0deg); }
+  65%  { opacity:1; transform: scale(1.3) rotate(45deg); }
+  100% { opacity:0; transform: scale(.9) rotate(90deg); }
 }
 
+/* Spotlight crosses with tapered rays */
+.spotlight { 
+  position:absolute; 
+  will-change: transform, opacity; 
+  pointer-events:none; 
+}
+.spotlight .core {
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width: 18px; height: 18px; border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,.85) 40%, rgba(255,255,255,0) 70%);
+  filter: drop-shadow(0 0 12px rgba(255,255,255,.65));
+}
+.spotlight .ray { 
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); 
+  background:none; 
+}
+.spotlight .ray.h {
+  height:0;
+  border-top: solid 2px transparent;
+  border-bottom: solid 2px transparent;
+}
+.spotlight .ray.v {
+  width:0;
+  border-left: solid 2px transparent;
+  border-right: solid 2px transparent;
+}
+@keyframes spot-flash {
+  0%   { opacity:0; transform: scale(.7); }
+  55%  { opacity:1; transform: scale(1.05); }
+  100% { opacity:0; transform: scale(.9); }
+}
 
         @keyframes corner-flash {
             0%, 90%, 100% { 
@@ -845,54 +748,92 @@
 
         // NEW SHARP SPARKLES CREATION FUNCTION
         function createSparkles() {
-            const sparklesContainer = document.getElementById('sparkles');
-            
-            // Small diamond sparkles (20) - randomly positioned
-            for (let i = 0; i < 20; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle sparkle-diamond';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.width = (Math.random() * 6 + 3) + 'px';
-sparkle.style.height = sparkle.style.width;
-sparkle.style.animationDelay = (Math.random() * 3) + 's';
-sparkle.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+  const stage = document.getElementById('sparkles');
 
-                sparklesContainer.appendChild(sparkle);
-            }
-            
-            // Large studio lights (4) - really bright crosses
-            for (let i = 0; i < 4; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle sparkle-studio-large';
-                sparkle.style.left = (Math.random() * 60 + 20) + '%';
-                sparkle.style.top = (Math.random() * 60 + 20) + '%';
-                sparkle.style.animationDelay = Math.random() * 5 + 's';
-                sparkle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                sparklesContainer.appendChild(sparkle);
-            }
-            
-            // Corner lights (4) - positioned in corners
-            const corners = [
-                { left: '8%', top: '8%' },
-                { right: '8%', top: '8%' },
-                { left: '8%', bottom: '8%' },
-                { right: '8%', bottom: '8%' }
-            ];
-            
-            corners.forEach((corner, index) => {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle sparkle-corner';
-                
-                Object.keys(corner).forEach(key => {
-                    sparkle.style[key] = corner[key];
-                });
-                
-                sparkle.style.animationDelay = (index * 1.5) + 's';
-                sparkle.style.animationDuration = '6s';
-                sparklesContainer.appendChild(sparkle);
-            });
-        }
+  const rand = (min, max) => Math.random() * (max - min) + min;
+
+  function randomViewportPos(pad){
+    const x = rand(pad, 100 - pad);
+    const y = rand(pad, 100 - pad);
+    return {x, y};
+  }
+
+  function spawnSparkle(){
+    const {x, y} = randomViewportPos(4);
+    const size = rand(3, 10);
+    const dur = rand(120, 380);
+    const el = document.createElement('div');
+    el.className = 'sparkle';
+    el.style.left = x + 'vw';
+    el.style.top  = y + 'vh';
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.animation = `sparkle-pop ${dur}ms ease-out 1 both`;
+    stage.appendChild(el);
+    el.addEventListener('animationend', () => el.remove(), {once:true});
+  }
+
+  function spawnSpotlight(){
+    const {x, y} = randomViewportPos(8);
+    const dur = rand(180, 420);
+    const width = rand(100, 260);
+    const el = document.createElement('div');
+    el.className = 'spotlight';
+    el.style.left = x + 'vw';
+    el.style.top  = y + 'vh';
+    el.style.width = (width + 40) + 'px';
+    el.style.height = (width + 40) + 'px';
+    el.style.marginLeft = `-${(width+40)/2}px`;
+    el.style.marginTop  = `-${(width+40)/2}px`;
+    el.style.animation = `spot-flash ${dur}ms ease-out 1 both`;
+
+    const core = document.createElement('div');
+    core.className = 'core';
+    el.appendChild(core);
+
+    const rayH = document.createElement('div');
+    rayH.className = 'ray h';
+    rayH.style.borderLeftWidth = (width/2) + 'px';
+    rayH.style.borderRightWidth = (width/2) + 'px';
+    rayH.style.borderTopColor = 'rgba(255,255,255,.9)';
+    rayH.style.borderBottomColor = 'rgba(255,255,255,.9)';
+    el.appendChild(rayH);
+
+    const rayV = document.createElement('div');
+    rayV.className = 'ray v';
+    rayV.style.borderTopWidth = (width/2) + 'px';
+    rayV.style.borderBottomWidth = (width/2) + 'px';
+    rayV.style.borderLeftColor = 'rgba(255,255,255,.9)';
+    rayV.style.borderRightColor = 'rgba(255,255,255,.9)';
+    el.appendChild(rayV);
+
+    stage.appendChild(el);
+    el.addEventListener('animationend', () => el.remove(), {once:true});
+  }
+
+  function scheduleRandom(fn, perSecond){
+    const minGap = 8;
+    let running = true;
+    (function loop(){
+      if(!running) return;
+      const rate = perSecond();
+      if(rate<=0){setTimeout(loop,120);return;}
+      const interval = Math.max(minGap, -Math.log(1 - Math.random()) / rate * 1000);
+      setTimeout(()=>{ if(!running) return; fn(); loop(); }, interval);
+    })();
+    return () => { running=false; };
+  }
+
+  let sparklesPerSec = 6;
+  let spotlightsPerMin = 30;
+
+  scheduleRandom(spawnSparkle, () => sparklesPerSec);
+  scheduleRandom(spawnSpotlight, () => spotlightsPerMin/60);
+
+  // initial seeding
+  for(let i=0;i<8;i++) setTimeout(spawnSparkle, i*50);
+  for(let i=0;i<3;i++) setTimeout(spawnSpotlight, i*120);
+}
 
         // Audio Functions
         function playBuzzerSound() {
