@@ -651,6 +651,67 @@ console.log('Audio not supported');
 }
 }
 
+    // Game list and validation functions
+const GAMES_LIST = [
+    { name: "Brain Candy", rounds: 3 },
+    { name: "Diva Domination", rounds: 4 },
+    { name: "Great Minds", rounds: 2 },
+    { name: "Keep on Singin", rounds: 4 },
+    { name: "POP Quiz", rounds: 5 },
+    { name: "Popcorn Puzzler", rounds: 5 },
+    { name: "Quantum Showdown", rounds: 5 },
+    { name: "Soundtrax", rounds: 5 },
+    { name: "Think Fast", rounds: 5 },
+    { name: "Turbo Tunes", rounds: 4 },
+    { name: "Who Said it?", rounds: 2 },
+    { name: "Word Pinata", rounds: 2 }
+];
+
+function populateGameDropdowns() {
+    const dropdowns = ['game1', 'game2', 'game3'];
+    
+    dropdowns.forEach(dropdownId => {
+        const dropdown = document.getElementById(dropdownId);
+        const currentValue = dropdown.value;
+        
+        // Clear existing options (keep the first "Select Game X" option)
+        dropdown.innerHTML = `<option value="">Select ${dropdownId.replace('game', 'Game ')}</option>`;
+        
+        // Add games, filtering out already selected ones
+        const selectedGames = getSelectedGames();
+        
+        GAMES_LIST.forEach(game => {
+            const gameValue = `${game.name}|${game.rounds}`;
+            
+            // Don't show games that are already selected in other dropdowns
+            if (!selectedGames.includes(gameValue) || currentValue === gameValue) {
+                const option = document.createElement('option');
+                option.value = gameValue;
+                option.textContent = `${game.name} (${game.rounds} rounds)`;
+                dropdown.appendChild(option);
+            }
+        });
+        
+        // Restore the previous selection if it was valid
+        if (currentValue) {
+            dropdown.value = currentValue;
+        }
+    });
+}
+
+function getSelectedGames() {
+    const selected = [];
+    ['game1', 'game2', 'game3'].forEach(id => {
+        const value = document.getElementById(id).value;
+        if (value) selected.push(value);
+    });
+    return selected;
+}
+
+function validateGameSelection() {
+    populateGameDropdowns();
+}
+    
 // HOST FUNCTIONS
 function createGame() {
 if (!ws || ws.readyState !== WebSocket.OPEN) {
@@ -1223,6 +1284,7 @@ break;
 document.addEventListener('DOMContentLoaded', function() {
 createSparkles();
 initializeConnection();
+populateGameDropdowns();
 });
 
 // Handle page visibility change for reconnection
