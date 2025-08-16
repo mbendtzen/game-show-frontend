@@ -618,7 +618,7 @@ function createSparkles() {
 // Audio Functions - Using your MP3 files
 function playBuzzerSound() {
 try {
-const audio = new Audio('/buzzer.mp3');
+const audio = new Audio('buzzer.mp3');
 audio.play().catch(e => {
 console.log('Audio play failed:', e);
 // Fallback to generated sound
@@ -641,7 +641,7 @@ console.log('Audio not supported');
 
 function playFanfareSound() {
 try {
-const audio = new Audio('/fanfare.mp3');
+const audio = new Audio('fanfare.mp3');
 audio.play().catch(e => {
 console.log('Audio play failed:', e);
 // Fallback to generated sound
