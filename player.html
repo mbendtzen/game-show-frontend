@@ -664,7 +664,7 @@
         // Audio Functions
         function playBuzzerSound() {
             try {
-                const audio = new Audio('/audio/buzzer.mp3');
+                const audio = new Audio('buzzer.mp3');
                 audio.play().catch(e => {
                     console.log('Buzzer audio failed, using fallback:', e);
                     playFallbackBuzzer();
