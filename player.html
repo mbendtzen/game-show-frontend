@@ -663,18 +663,24 @@
 }
 
         // Audio Functions
-        function playBuzzerSound() {
-            try {
-                const audio = new Audio('buzzer.mp3');
-                audio.play().catch(e => {
-                    console.log('Buzzer audio failed, using fallback:', e);
-                    playFallbackBuzzer();
-                });
-            } catch (e) {
-                console.log('Audio not supported, using fallback');
-                playFallbackBuzzer();
-            }
-        }
+       function playBuzzerSound() {
+    console.log('Trying to play buzzer sound...');
+    try {
+        const audio = new Audio('./buzzer.mp3');
+        audio.volume = 0.5;
+        console.log('Audio object created, attempting to play...');
+        audio.play().then(() => {
+            console.log('Audio played successfully!');
+        }).catch(e => {
+            console.log('Audio play failed:', e);
+            console.log('Trying fallback buzzer...');
+            playFallbackBuzzer();
+        });
+    } catch (e) {
+        console.log('Audio creation failed:', e);
+        playFallbackBuzzer();
+    }
+}
 
         function playFallbackBuzzer() {
             try {
