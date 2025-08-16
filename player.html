@@ -888,24 +888,27 @@
             setBuzzerState('buzzed');
         }
 
-        function setBuzzerState(state) {
-            const buzzer = document.getElementById('playerBuzzer');
-            buzzer.className = `buzzer ${state === 'buzzed' ? 'buzzed-in' : state === 'locked' ? 'locked-out' : 'ready'}`;
+  function setBuzzerState(state) {
+    const buzzer = document.getElementById('playerBuzzer');
+    buzzer.className = `buzzer ${state === 'buzzed' ? 'buzzed-in' : state === 'locked' ? 'locked-out' : 'ready'}`;
 
-            switch(state) {
-                case 'ready':
-                    buzzer.innerHTML = 'Get ready to<br>Get in the Game!';
-                    playerState.buzzedIn = false;
-                    break;
-                case 'buzzed':
-    buzzer.innerHTML = "🔥 You're in! 🔥<br>Wait for host to call on you!";
-    playerState.buzzedIn = true;
-    break;
-                case 'locked':
-                    buzzer.textContent = 'Your teammate beat you to it!';
-                    break;
-            }
-        }
+    switch(state) {
+        case 'ready':
+            buzzer.innerHTML = 'Get ready to<br>Get in the Game!';
+            buzzer.disabled = false;
+            playerState.buzzedIn = false;
+            break;
+        case 'buzzed':
+            buzzer.innerHTML = "You're in! 🔥<br>Wait for host to call on you!";
+            buzzer.disabled = true;
+            playerState.buzzedIn = true;
+            break;
+        case 'locked':
+            buzzer.textContent = 'Your teammate beat you to it!';
+            buzzer.disabled = true;
+            break;
+    }
+}
 
         function resetBuzzer() {
             setBuzzerState('ready');
