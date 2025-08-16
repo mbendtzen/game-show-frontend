@@ -502,10 +502,10 @@
                 Game 1: Round 1
             </div>
 
-            <div class="control-buttons">
-                <button class="btn btn-warning btn-small" onclick="changeTeam()">CHG TEAM</button>
-                <button class="btn btn-warning btn-small" onclick="leaveGame()">EXIT</button>
-            </div>
+           <div class="btn-row">
+    <button class="btn btn-warning btn-small" onclick="changeTeam()">CHG TEAM</button>
+    <button class="btn btn-warning btn-small" onclick="leaveGame()">EXIT</button>
+</div>
 
             <div class="buzzer-container">
                 <button class="buzzer ready" id="playerBuzzer" onclick="playerBuzz()">
@@ -898,7 +898,7 @@
                     playerState.buzzedIn = false;
                     break;
                 case 'buzzed':
-    buzzer.innerHTML = "You're in! 🔥<br>Wait for host to call on you!";
+    buzzer.innerHTML = "🔥 You're in! 🔥<br>Wait for host to call on you!";
     playerState.buzzedIn = true;
     break;
                 case 'locked':
