@@ -168,16 +168,17 @@
             }
         }
 
-        @keyframes studio-pulse-large {
-            0%, 100% { 
-                opacity: 0.3;
-                transform: scale(1) rotate(0deg);
-            }
-            50% { 
-                opacity: 0.9;
-                transform: scale(1.1) rotate(45deg);
-            }
-        }
+ @keyframes studio-pulse-large {
+  0%, 100% { 
+      opacity: 0.3;
+      transform: scale(1);
+  }
+  50% { 
+      opacity: 0.9;
+      transform: scale(1.1);
+  }
+}
+
 
         @keyframes corner-flash {
             0%, 90%, 100% { 
@@ -227,37 +228,18 @@
             overflow: hidden;
         }
 
-        .frequent-fun-premium::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(45deg, 
-                #ffffff 0%, 
-                rgba(255,255,255,0.3) 25%, 
-                #ffffff 50%, 
-                rgba(255,255,255,0.3) 75%, 
-                #ffffff 100%);
-            border-radius: 18px;
-            animation: button-shimmer 2s infinite;
-            z-index: -1;
-            box-shadow: 
-                0 0 20px rgba(255,255,255,0.5),
-                inset 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        .frequent-fun-premium::after {
-            content: '✨';
-            position: absolute;
-            top: 8px;
-            right: 15px;
-            font-size: 16px;
-            animation: sparkle-float 2s infinite ease-in-out;
-            filter: brightness(1.5);
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
-        }
+ .frequent-fun-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, #fff, transparent);
+  border-radius: 18px;
+  animation: borderShimmer 2s linear infinite;
+  z-index: -1;
+}
 
         @keyframes button-shimmer {
             0% { 
@@ -279,6 +261,11 @@
                     inset 0 0 20px rgba(255,255,255,0.1);
             }
         }
+
+        @keyframes borderShimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
 
         @keyframes sparkle-float {
             0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.8; }
@@ -866,8 +853,11 @@
                 sparkle.className = 'sparkle sparkle-diamond';
                 sparkle.style.left = Math.random() * 100 + '%';
                 sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 2.5 + 's';
-                sparkle.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                sparkle.style.width = (Math.random() * 6 + 3) + 'px';
+sparkle.style.height = sparkle.style.width;
+sparkle.style.animationDelay = (Math.random() * 3) + 's';
+sparkle.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+
                 sparklesContainer.appendChild(sparkle);
             }
             
