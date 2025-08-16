@@ -861,17 +861,6 @@ sparkle.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
                 sparklesContainer.appendChild(sparkle);
             }
             
-            // Medium studio lights (8) - 4-pointed crosses
-            for (let i = 0; i < 8; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkle sparkle-studio';
-                sparkle.style.left = (Math.random() * 70 + 15) + '%';
-                sparkle.style.top = (Math.random() * 70 + 15) + '%';
-                sparkle.style.animationDelay = Math.random() * 4 + 's';
-                sparkle.style.animationDuration = (Math.random() * 2 + 3) + 's';
-                sparklesContainer.appendChild(sparkle);
-            }
-            
             // Large studio lights (4) - really bright crosses
             for (let i = 0; i < 4; i++) {
                 const sparkle = document.createElement('div');
