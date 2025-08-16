@@ -666,7 +666,7 @@
        function playBuzzerSound() {
     console.log('Trying to play buzzer sound...');
     try {
-        const audio = new Audio('./buzzer.mp3');
+        const audio = new Audio('/buzzer.mp3');
         audio.volume = 0.5;
         console.log('Audio object created, attempting to play...');
         audio.play().then(() => {
