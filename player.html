@@ -116,6 +116,49 @@
             100% { background-position: 0% 50%; }
         }
 
+        .frequent-fun-premium {
+    position: relative;
+    overflow: hidden;
+}
+
+.frequent-fun-premium::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        #FFD700 0%, 
+        #FFFFFF 25%, 
+        #FFD700 50%, 
+        #FFFFFF 75%, 
+        #FFD700 100%);
+    border-radius: 15px;
+    animation: diamond-shimmer 3s infinite;
+    z-index: -1;
+}
+
+.frequent-fun-premium::after {
+    content: '✨';
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    font-size: 16px;
+    animation: sparkle-float 2s infinite ease-in-out;
+}
+
+@keyframes diamond-shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes sparkle-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-3px) rotate(180deg); opacity: 1; }
+}
+        
         .card {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
