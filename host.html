@@ -1201,6 +1201,36 @@ localStorage.setItem("hostSession", JSON.stringify({
 
 break;
 
+    case 'HOST_SYNC':
+        // rehydrate basic state
+        gameState.gameCode = message.gameCode;
+        gameState.gameStarted = message.gameStarted;
+        gameState.currentGame = message.currentGame;
+        gameState.currentRound = message.currentRound;
+        gameState.games = message.games || [];
+
+        // show the correct sections
+        document.getElementById('gameCode').textContent = gameState.gameCode;
+        document.getElementById('gameCreation').classList.add('hidden');
+        document.getElementById('gameCodeDisplay').classList.remove('hidden');
+        document.getElementById('gameSetup').classList.remove('hidden');
+
+        // rebuild teams from array into the shape the host page expects
+        gameState.teams = {};
+        (message.teams || []).forEach(team => {
+          gameState.teams[team.name] = {
+            members: team.members || [],
+            totalScore: team.totalScore || 0,
+            roundScores: team.roundScores || []
+          };
+        });
+        if (typeof updateTeamScores === 'function') updateTeamScores();
+
+        // restore buzzed list
+        gameState.buzzedPlayers = message.buzzedPlayers || [];
+        if (typeof updateBuzzedList === 'function') updateBuzzedList();
+
+        break;
 
 
 case 'PLAYER_BUZZED':
