@@ -514,6 +514,18 @@ ws = new WebSocket(wsUrl);
 ws.onopen = function() {
 console.log('WebSocket connected');
 updateConnectionStatus(true);
+
+// Auto-rejoin host session if saved
+const saved = localStorage.getItem("hostSession");
+if (saved) {
+  const { gameCode, hostId } = JSON.parse(saved);
+  console.log('Restoring host session for game:', gameCode);
+  ws.send(JSON.stringify({
+    type: 'HOST_REJOIN',
+    gameCode: gameCode,
+    hostId: hostId
+  }));
+}
 };
 
 ws.onmessage = function(event) {
