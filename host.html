@@ -1031,18 +1031,22 @@ totalScore: gameState.teams[teamName].totalScore
 
 function endGame() {
 if (confirm('WARNING: Ending this game will delete all active teams and restart from scratch. Are you sure you want to do this?')) {
+
+// capture the current code BEFORE resetting
+const prevGameCode = gameState.gameCode;
+
 // Reset all game state
 gameState = {
-gameCode: '',
-hostId: generateId(),
-currentGame: 1,
-currentRound: 1,
-games: [],
-teams: {},
-buzzedPlayers: [],
-scoringEnabled: false,
-gameStarted: false,
-gameEnded: false
+  gameCode: '',
+  hostId: generateId(),
+  currentGame: 1,
+  currentRound: 1,
+  games: [],
+  teams: {},
+  buzzedPlayers: [],
+  scoringEnabled: false,
+  gameStarted: false,
+  gameEnded: false
 };
 
 // Hide all game sections and show creation
@@ -1059,12 +1063,15 @@ document.getElementById('game1').value = '';
 document.getElementById('game2').value = '';
 document.getElementById('game3').value = '';
 
-// Notify server to end the game
-if (ws && ws.readyState === WebSocket.OPEN) {
-ws.send(JSON.stringify({
-type: 'END_GAME',
-gameCode: gameState.gameCode
-}));
+// Clear saved host session so refresh doesn’t drag us back
+localStorage.removeItem("hostSession");
+
+// Notify server to end the game (use the captured code)
+if (ws && ws.readyState === WebSocket.OPEN && prevGameCode) {
+  ws.send(JSON.stringify({
+    type: 'END_GAME',
+    gameCode: prevGameCode
+  }));
 }
 
 alert('Game ended. You can now create a new game.');
