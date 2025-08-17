@@ -1190,6 +1190,9 @@
                 playerState.isManager = false;
                 playerState.buzzedIn = false;
 
+                  // Clear saved session so refresh doesn't pull you back into this game
+                localStorage.removeItem("playerSession");
+                
                 // Return to game code entry
                 document.getElementById('playerGameView').classList.add('hidden');
                 document.getElementById('playerSetup').classList.add('hidden');
