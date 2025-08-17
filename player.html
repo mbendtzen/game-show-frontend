@@ -692,10 +692,29 @@
             try {
                 ws = new WebSocket(wsUrl);
 
-                ws.onopen = function() {
-                    console.log('WebSocket connected');
-                    updateConnectionStatus(true);
-                };
+             ws.onopen = function() {
+    console.log('WebSocket connected');
+    updateConnectionStatus(true);
+
+    // Auto-rejoin player session if saved
+    const saved = localStorage.getItem("playerSession");
+    if (saved) {
+        const { gameCode, playerId, name, teamName, isManager } = JSON.parse(saved);
+        console.log("Restoring player session for:", name, "in game:", gameCode);
+
+        if (gameCode && playerId && name && teamName) {
+            ws.send(JSON.stringify({
+                type: 'REJOIN_GAME',
+                gameCode: gameCode,
+                playerId: playerId,
+                playerName: name,
+                teamName: teamName,
+                isManager: !!isManager
+            }));
+        }
+    }
+};
+
 
                 ws.onmessage = function(event) {
                     console.log('Received:', event.data);
