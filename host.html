@@ -1287,6 +1287,23 @@ gameCode: gameState.gameCode
 }));
 }
 });
+    // --- Auto-Rejoin Logic for Host ---
+window.addEventListener('load', () => {
+    const saved = localStorage.getItem("hostSession");
+    if (saved) {
+        const { gameCode, hostId } = JSON.parse(saved);
+        console.log("Restoring host session for game:", gameCode);
+
+        // Send rejoin request to backend
+        socket.send(JSON.stringify({
+            type: 'REJOIN_GAME',
+            gameCode: gameCode,
+            hostId: hostId,
+            isHost: true
+        }));
+    }
+});
+
 </script>
 
 </body>
