@@ -898,6 +898,8 @@ function persistPlayerState() {
             }
 
             playerState.gameCode = gameCode;
+            persistPlayerState();
+
 
             // Check if game exists by attempting to join
             ws.send(JSON.stringify({
