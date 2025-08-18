@@ -706,10 +706,24 @@ function persistPlayerState() {
             try {
                 ws = new WebSocket(wsUrl);
 
-                ws.onopen = function() {
-                    console.log('WebSocket connected');
-                    updateConnectionStatus(true);
-                };
+             ws.onopen = function() {
+    console.log('WebSocket connected');
+    updateConnectionStatus(true);
+
+    // if we already know who we are and what game/team we were in,
+    // automatically rejoin with the same playerId
+    if (playerState.gameCode && playerState.teamName && playerState.name) {
+        ws.send(JSON.stringify({
+            type: 'REJOIN_GAME',
+            gameCode: playerState.gameCode,
+            playerId: playerState.playerId,
+            playerName: playerState.name,
+            teamName: playerState.teamName,
+            isManager: playerState.isManager
+        }));
+    }
+};
+
 
                 ws.onmessage = function(event) {
                     console.log('Received:', event.data);
