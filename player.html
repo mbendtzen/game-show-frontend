@@ -954,6 +954,7 @@ function persistPlayerState() {
             }
 
             playerState.name = playerName;
+                persistPlayerState();
             
             // Hide name input and team choice buttons
             document.getElementById('playerName').classList.add('hidden');
@@ -1175,7 +1176,8 @@ persistPlayerState();
             playerState.teamName = '';
             playerState.isManager = false;
             playerState.buzzedIn = false;
-
+persistPlayerState();
+            
             // Show team selection again
             document.getElementById('playerGameView').classList.add('hidden');
             document.getElementById('playerSetup').classList.remove('hidden');
@@ -1198,11 +1200,12 @@ persistPlayerState();
                     }));
                 }
 
-                // Reset state
-                playerState.gameCode = '';
-                playerState.teamName = '';
-                playerState.isManager = false;
-                playerState.buzzedIn = false;
+// Reset state
+playerState.gameCode = '';
+playerState.teamName = '';
+playerState.isManager = false;
+playerState.buzzedIn = false;
+persistPlayerState();
 
                 // Return to game code entry
                 document.getElementById('playerGameView').classList.add('hidden');
