@@ -1394,6 +1394,8 @@ persistPlayerState();
                 case 'MANAGER_CHANGED':
                     if (message.teamName === playerState.teamName && message.newManagerId === playerState.playerId) {
                         playerState.isManager = true;
+                        persistPlayerState();
+
                         updatePlayerGameInfo();
                         alert('You are now the team manager!');
                     }
