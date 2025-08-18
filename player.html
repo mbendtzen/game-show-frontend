@@ -1473,42 +1473,57 @@
             }
         });
 
-        // Handle browser back/forward
-        window.addEventListener('beforeunload', function(e) {
-            if (playerState.gameCode && ws && ws.readyState === WebSocket.OPEN) {
-                // Let server know we're leaving
-                ws.send(JSON.stringify({
-                    type: 'PLAYER_DISCONNECT',
-                    playerId: playerState.playerId,
-                    gameCode: playerState.gameCode
-                }));
-            }
-        });
-        
-    </script>
-        </script>
+ // Handle browser back/forward
+window.addEventListener('beforeunload', function(e) {
+    if (playerState.gameCode && ws && ws.readyState === WebSocket.OPEN) {
+        // Let server know we're leaving
+        ws.send(JSON.stringify({
+            type: 'PLAYER_DISCONNECT',
+            playerId: playerState.playerId,
+            gameCode: playerState.gameCode
+        }));
+    }
+});
 
-    <!-- Duplicate Name Conflict Popup -->
-    <div id="nameConflictPopup" class="hidden" style="
-        position: fixed;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -30%);
-        background: white;
-        border: 2px solid #333;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        z-index: 1000;
-        text-align: center;
-    ">
-        <p id="conflictMessage"></p>
-        <button id="rejoinBtn">👉 That's me, I'm rejoining</button>
-        <button id="changeNameBtn">✏️ Enter a different name</button>
-    </div>
+// ====================================================
+// NEW CODE for handling the name conflict popup buttons
+// ====================================================
+document.getElementById('rejoinBtn').addEventListener('click', () => {
+    if (window.conflictData) {
+        ws.send(JSON.stringify({
+            type: 'REJOIN_CONFIRM',
+            gameCode: window.conflictData.gameCode,
+            playerName: window.conflictData.playerName,
+            teamName: window.conflictData.teamName
+        }));
+        document.getElementById('nameConflictPopup').classList.add('hidden');
+    }
+});
 
-</body>
-</html>
+document.getElementById('changeNameBtn').addEventListener('click', () => {
+    document.getElementById('nameConflictPopup').classList.add('hidden');
+    alert("Please choose a different name to join.");
+});
+</script>
+
+<!-- Duplicate Name Conflict Popup -->
+<div id="nameConflictPopup" class="hidden" style="
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    background: white;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    text-align: center;
+">
+    <p id="conflictMessage"></p>
+    <button id="rejoinBtn">👉 That's me, I'm rejoining</button>
+    <button id="changeNameBtn">✏️ Enter a different name</button>
+</div>
 
 </body>
 </html>
