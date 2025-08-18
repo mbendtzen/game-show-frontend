@@ -661,15 +661,29 @@
 
         // WebSocket connection for real-time communication
         let ws = null;
-        let playerState = {
-            playerId: generateId(),
-            name: '',
-            teamName: '',
-            isManager: false,
-            buzzedIn: false,
-            gameCode: '',
-            connected: false
-        };
+   // PERSISTENT PLAYER STATE
+const _psSaved = JSON.parse(localStorage.getItem('playerState') || '{}');
+
+let playerState = {
+  playerId: _psSaved.playerId || generateId(),
+  name: _psSaved.name || '',
+  teamName: _psSaved.teamName || '',
+  isManager: _psSaved.isManager || false,
+  buzzedIn: false,
+  gameCode: _psSaved.gameCode || '',
+  connected: false
+};
+
+function persistPlayerState() {
+  localStorage.setItem('playerState', JSON.stringify({
+    playerId: playerState.playerId,
+    name: playerState.name,
+    teamName: playerState.teamName,
+    isManager: playerState.isManager,
+    gameCode: playerState.gameCode
+  }));
+}
+
 
         let gameState = {
             currentGame: 1,
