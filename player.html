@@ -1031,6 +1031,7 @@ function persistPlayerState() {
 
             playerState.teamName = teamName;
             playerState.isManager = false;
+persistPlayerState();
 
             // Send join request to server
             ws.send(JSON.stringify({
