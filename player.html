@@ -1358,6 +1358,20 @@
                     }
                     break;
 
+                case 'NAME_CONFLICT':
+    // Show popup
+    document.getElementById('conflictMessage').textContent =
+        `A player with the name "${message.name}" is already on team "${message.team}".`;
+    document.getElementById('nameConflictPopup').classList.remove('hidden');
+
+    // Save info for later use
+    window.conflictData = {
+        gameCode: currentGameCode,
+        playerName: message.name,
+        teamName: message.team
+    };
+    break;
+
                 case 'MANAGER_CHANGED':
                     if (message.teamName === playerState.teamName && message.newManagerId === playerState.playerId) {
                         playerState.isManager = true;
