@@ -1318,6 +1318,34 @@
                     updateTeamDropdown(message.teams);
                     break;
 
+                            case 'NAME_CONFLICT': {
+            const { playerName } = message;
+            const modal = document.getElementById('nameConflictModal');
+            const txt = document.getElementById('conflictText');
+            txt.textContent = `There is already a player named "${playerName}" on this team.`;
+            modal.classList.remove('hidden');
+
+            document.getElementById('claimNameBtn').onclick = () => {
+                modal.classList.add('hidden');
+                ws.send(JSON.stringify({
+                    type: 'CLAIM_NAME',
+                    gameCode: playerState.gameCode,
+                    teamName: playerState.teamName,
+                    playerName: playerState.name
+                }));
+            };
+
+            document.getElementById('renameBtn').onclick = () => {
+                modal.classList.add('hidden');
+                alert('Please enter a different name and try again.');
+                document.getElementById('playerName').classList.remove('hidden');
+                document.getElementById('teamOptions').classList.remove('hidden');
+                document.getElementById('teamCreation').classList.add('hidden');
+                document.getElementById('teamJoining').classList.add('hidden');
+            };
+            break;
+        }
+
                 case 'GAME_STARTED':
                     gameState.gameStarted = true;
                     gameState.games = message.games;
